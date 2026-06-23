@@ -1,10 +1,10 @@
 {
   "name": "angular-standards",
   "displayName": "Angular Standards",
-  "version": "0.1.0",
-  "description": "Enterprise Angular architecture governance: MCP tools, PR review skill, and file-scoped rules with progressive token disclosure.",
+  "version": "0.1.1",
+  "description": "Angular architecture governance for Cursor, GitHub Copilot, Claude Code, and Claude Desktop.",
   "author": {
-    "name": "Himakar",
+    "name": "Himakar"
   },
   "homepage": "https://github.com/Himakar-tit/ai-coding-standards",
   "repository": "https://github.com/Himakar-tit/ai-coding-standards",

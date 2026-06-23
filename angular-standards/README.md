@@ -1,120 +1,109 @@
 # Angular Standards Plugin
 
-Enterprise Angular architecture governance for **Cursor**, **GitHub Copilot (VS Code)**, **Claude Desktop**, and **Claude Code** — modeled after **Angular CLI MCP**.
+Angular architecture governance for **Cursor**, **GitHub Copilot**, **Claude Code**, and **Claude Desktop** — one MCP server, progressive token disclosure.
 
-## Supported Hosts
+## Install into your Angular project
 
-| Host | MCP config location | Config key | Instructions |
-|------|---------------------|------------|--------------|
-| **Cursor** | `.cursor/mcp.json` | `mcpServers` | `rules/`, `skills/`, `commands/` |
-| **VS Code + Copilot** | `.vscode/mcp.json` | `servers` (+ `type: "stdio"`) | `.github/copilot-instructions.md` |
-| **Claude Code** | `.mcp.json` (project root) | `mcpServers` | `CLAUDE.md` |
-| **Claude Desktop** | `claude_desktop_config.json` | `mcpServers` | Manual — use MCP tools in chat |
-
-All hosts share the **same MCP server** (stdio). Only the config file format differs.
-
-## Quick Setup (All Hosts)
+### Published npm (after `npm publish`)
 
 ```bash
-cd angular-standards/mcp-server
-npm install && npm run build
-
-# Install into your Angular app (replace --target path)
-node ../scripts/setup.mjs --target /path/to/your-angular-app --host all
+cd your-angular-app
+npx angular-standards-setup
 ```
 
-This writes:
-- `.cursor/mcp.json` (Cursor)
-- `.vscode/mcp.json` (GitHub Copilot)
-- `.mcp.json` + `.mcp/angular-standards-entry.mjs` (Claude Code)
-- `claude_desktop_config.json` (Claude Desktop — user profile)
-- `.github/copilot-instructions.md` + `.github/instructions/angular.instructions.md`
-- `CLAUDE.md`
+### From this repository (dev / before publish)
 
-Restart your IDE / Claude Desktop after setup.
+```bash
+cd angular-standards/mcp-server && npm install && npm run build
+node scripts/setup.mjs --target /path/to/your-angular-app --local
+```
 
-## Manual Setup by Host
+See [install/README.md](./install/README.md) for host-specific options.
 
-### Cursor
+---
 
-Copy [configs/cursor.mcp.json.example](./configs/cursor.mcp.json.example) to `.cursor/mcp.json`. Replace paths.
+## Supported hosts
 
-Or install as Cursor plugin (rules/skills/commands auto-discovered).
+| Host | MCP config | Instructions | Verify |
+|------|------------|--------------|--------|
+| **GitHub Copilot** | `.vscode/mcp.json` (`servers` + `type: stdio`) | `.github/copilot-instructions.md`, `.github/instructions/` | VS Code → reload → Copilot agent mode → MCP panel |
+| **Claude Code** | `.mcp.json` | `CLAUDE.md`, `AGENTS.md` | `claude mcp list` → approve project server |
+| **Claude Desktop** | `claude_desktop_config.json` | Use MCP tools in chat | Full app restart after setup |
+| **Cursor** | `.cursor/mcp.json` | `rules/`, `skills/`, `/angular-review` | Settings → MCP → green dot |
 
-### GitHub Copilot (VS Code)
+All hosts run the same MCP package:
 
-1. Copy [configs/vscode.mcp.json.example](./configs/vscode.mcp.json.example) to `.vscode/mcp.json`
-2. Copy [templates/copilot-instructions.md](./templates/copilot-instructions.md) to `.github/copilot-instructions.md`
-3. Copy [templates/angular.instructions.md](./templates/angular.instructions.md) to `.github/instructions/angular.instructions.md`
-4. Reload VS Code → verify MCP server in Copilot Chat agent mode
+```json
+"command": "npx",
+"args": ["-y", "angular-standards-mcp"]
+```
 
-**Critical:** VS Code uses `"servers"` not `"mcpServers"`. Each entry needs `"type": "stdio"`.
+---
 
-Copilot can also import Claude Desktop MCP config automatically (Settings → MCP → From Claude Desktop).
+## GitHub Copilot setup
 
-### Claude Code
+1. Run `npx angular-standards-setup --host copilot` in your Angular repo
+2. Reload VS Code (`Developer: Reload Window`)
+3. Open **Copilot Chat** in **agent** mode (not ask mode)
+4. Confirm **angular-standards** MCP server is connected
 
-1. Run setup with `--host claude-code`, or copy [configs/claude-code.mcp.json.example](./configs/claude-code.mcp.json.example) to project `.mcp.json`
-2. Copy [templates/CLAUDE.md](./templates/CLAUDE.md) to project root
-3. Approve project-scoped MCP on first run: `claude mcp list`
+Copilot also uses repo instructions for **cloud agent** and **code review** when you commit:
+
+- `.github/copilot-instructions.md` — workspace-wide
+- `.github/instructions/angular.instructions.md` — `**/*.{ts,html,scss}`
+- `.github/instructions/angular-pr-review.instructions.md` — PR review workflow
+
+Docs: [VS Code custom instructions](https://code.visualstudio.com/docs/copilot/customization/custom-instructions)
+
+---
+
+## Claude setup
+
+### Claude Code (CLI / IDE)
+
+```bash
+npx angular-standards-setup --host claude-code
+```
+
+Creates `.mcp.json` + `CLAUDE.md`. On first run, approve the project MCP server.
 
 CLI alternative:
 
 ```bash
-claude mcp add-json angular-standards '{"type":"stdio","command":"node","args":["/absolute/path/to/mcp-server/dist/index.js"]}'
+claude mcp add-json angular-standards '{"type":"stdio","command":"npx","args":["-y","angular-standards-mcp"]}'
 ```
 
 ### Claude Desktop
 
-Claude Desktop requires **absolute paths** (no `${workspaceFolder}`).
-
-Windows: `%APPDATA%\Claude\claude_desktop_config.json`  
-macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`  
-Linux: `~/.config/Claude/claude_desktop_config.json`
-
-Merge [configs/claude-desktop.config.snippet.json](./configs/claude-desktop.config.snippet.json) into `mcpServers`. Fully quit and restart Claude Desktop.
-
-## MCP Tools (All Hosts)
-
-| Tool | Purpose | Typical tokens |
-|------|---------|----------------|
-| `list_standards_sections` | Index of available sections | ~200 |
-| `get_standards_section` | One section only | ~150–400 |
-| `get_pr_review_brief` | Review format + anti-patterns | ~800 |
-| `get_review_sections_for_diff` | Sections matched to file types | ~600–2000 |
-| `scan_angular_violations` | Fast heuristic file scan | ~100–300 |
-
-## Token-Efficient Architecture
-
-| Layer | Host support | Token cost |
-|-------|-------------|------------|
-| **MCP tools** | All hosts | On demand, 200–2000 per call |
-| **Copilot instructions** | VS Code, GitHub.com | ~300 lines max, pointer to MCP |
-| **Cursor rules/skills** | Cursor only | File-scoped / task-scoped |
-| **CLAUDE.md** | Claude Code | ~40 lines, orchestration only |
-
-Never paste the full 3,000+ token review prompt. Use MCP progressive disclosure.
-
-## npm Distribution (Optional)
-
-After publishing `@enterprise/angular-standards-mcp`:
-
-```json
-{
-  "mcpServers": {
-    "angular-standards": {
-      "command": "npx",
-      "args": ["-y", "@enterprise/angular-standards-mcp"]
-    }
-  }
-}
+```bash
+npx angular-standards-setup --host claude-desktop
 ```
 
-Works identically on Cursor, Copilot, and Claude — same pattern as `npx @angular/cli mcp`.
+Fully quit and restart Claude Desktop. MCP tools appear in chat.
+
+---
+
+## MCP tools (all hosts)
+
+| Tool | Purpose |
+|------|---------|
+| `list_standards_sections` | Index (~200 tokens) |
+| `get_standards_section` | One standards domain |
+| `get_pr_review_brief` | PR review format + anti-patterns |
+| `get_review_sections_for_diff` | Sections matched to changed files |
+| `scan_angular_violations` | Heuristic `.ts`/`.html` scan |
+
+---
+
+## Cursor Marketplace
+
+Install from Cursor Marketplace for rules, skills, and `/angular-review` without manual setup.
+
+For Copilot and Claude, use `npx angular-standards-setup` in each Angular repo.
+
+---
 
 ## Composability
-
-Pair with official Angular CLI MCP — do not duplicate:
 
 ```json
 "angular-cli": {
@@ -123,24 +112,10 @@ Pair with official Angular CLI MCP — do not duplicate:
 }
 ```
 
-## Repository Layout
-
-```
-angular-standards/
-├── configs/              # Per-host MCP config examples
-├── templates/            # Copilot + Claude instruction templates
-├── scripts/setup.mjs     # One-command multi-host installer
-├── mcp-server/           # Shared stdio MCP server
-├── standards/            # 13 progressive-disclosure sections
-├── rules/                # Cursor-only .mdc rules
-├── skills/               # Cursor-only skills
-└── commands/             # Cursor-only /angular-review
-```
-
 ## License
 
 MIT
 
 ## Publishing
 
-See [PUBLISHING.md](../PUBLISHING.md) for npm, Cursor Marketplace, and enterprise distribution procedures.
+[PUBLIC_LAUNCH.md](../PUBLIC_LAUNCH.md) · [PUBLISHING.md](../PUBLISHING.md)

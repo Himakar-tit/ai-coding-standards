@@ -1,15 +1,19 @@
 {
   "name": "angular-standards-mcp",
-  "version": "0.1.0",
-  "description": "MCP server for Angular architecture standards — progressive disclosure for AI coding assistants.",
+  "version": "0.1.1",
+  "description": "MCP server for Angular architecture standards — Cursor, GitHub Copilot, Claude Desktop, and Claude Code.",
   "type": "module",
   "license": "MIT",
   "bin": {
-    "angular-standards-mcp": "./dist/index.js"
+    "angular-standards-mcp": "./dist/index.js",
+    "angular-standards-setup": "./scripts/setup.mjs"
   },
   "files": [
     "dist",
-    "standards"
+    "standards",
+    "templates",
+    "scripts/setup.mjs",
+    "scripts/copy-standards.mjs"
   ],
   "scripts": {
     "build": "tsc && node scripts/copy-standards.mjs",
@@ -47,6 +51,8 @@
     "cursor",
     "copilot",
     "claude",
+    "github-copilot",
+    "claude-code",
     "architecture",
     "code-review",
     "model-context-protocol"

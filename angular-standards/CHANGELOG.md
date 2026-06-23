@@ -7,12 +7,18 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
-- Multi-host support: Cursor, VS Code Copilot, Claude Desktop, Claude Code
-- MCP tools: `list_standards_sections`, `get_standards_section`, `get_pr_review_brief`, `get_review_sections_for_diff`, `scan_angular_violations`
-- Setup script: `scripts/setup.mjs`
-- Publishing guide: `PUBLISHING.md`
+- `angular-standards-setup` CLI for GitHub Copilot, Claude Code, and Claude Desktop
+- Copilot: `.vscode/mcp.json`, `.github/copilot-instructions.md`, `.github/instructions/`, `AGENTS.md`
+- Claude Code: `.mcp.json`, `CLAUDE.md`
+- `install/README.md` with per-host setup guide
 
-## [0.1.0] - TBD
+## [0.1.1] - TBD
+
+### Added
+- Multi-host installer (`npx angular-standards-setup`)
+- PR review Copilot instructions file
+
+## [0.1.0] - 2026-06-23
 
 ### Added
 - Initial angular-standards plugin with 13 standards sections
