@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "angular-standards": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "angular-standards-mcp"]
+    }
+  }
+}

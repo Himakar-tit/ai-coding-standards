@@ -1,0 +1,14 @@
+{
+  "name": "angular-standards",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Enterprise Angular architecture plugin for Cursor, GitHub Copilot, and Claude",
+  "scripts": {
+    "build": "npm run build --prefix mcp-server",
+    "setup": "node scripts/setup.mjs --host all",
+    "setup:cursor": "node scripts/setup.mjs --host cursor",
+    "setup:vscode": "node scripts/setup.mjs --host vscode",
+    "setup:claude": "node scripts/setup.mjs --host claude-code",
+    "setup:copilot": "node scripts/setup.mjs --host copilot"
+  }
+}

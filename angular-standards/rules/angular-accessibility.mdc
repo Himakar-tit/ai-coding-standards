@@ -1,0 +1,14 @@
+---
+description: WCAG accessibility requirements for Angular templates
+globs: "**/*.{html,ts}"
+alwaysApply: false
+---
+
+# Accessibility
+
+- Semantic HTML first; interactive elements must be keyboard accessible
+- Every form control needs an accessible name
+- Manage focus in dialogs/overlays; announce dynamic changes when needed
+- No clickable non-semantic elements without full a11y contract
+
+Call MCP `get_standards_section` with `accessibility` before shipping UI changes.

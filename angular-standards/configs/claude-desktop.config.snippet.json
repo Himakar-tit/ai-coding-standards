@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "angular-standards": {
+      "command": "npx",
+      "args": ["-y", "angular-standards-mcp"]
+    }
+  }
+}

@@ -1,0 +1,15 @@
+---
+description: RxJS and reactive patterns for Angular
+globs: "**/*.ts"
+alwaysApply: false
+---
+
+# RxJS Standards
+
+- Pure transforms in `map`/`switchMap`/`mergeMap` — side effects only in `tap`
+- `takeUntilDestroyed()` for component-scoped subscriptions
+- Prefer async pipe and signals over manual `subscribe()`
+- Never use `subs.sink`, `Subscription[]`, or constructor subscriptions
+- Store orchestration belongs in NgRx Effects, not components
+
+Call MCP `get_standards_section` with `rxjs` for full reactive review criteria.

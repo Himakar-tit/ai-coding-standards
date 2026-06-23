@@ -1,0 +1,21 @@
+{
+  "name": "ai-coding-standards",
+  "owner": {
+    "name": "Himakar",
+    "email": "Himakar-tit@users.noreply.github.com"
+  },
+  "metadata": {
+    "description": "Open-source Angular architecture governance for Cursor Marketplace",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "angular-standards",
+      "source": "./angular-standards",
+      "description": "Angular architecture standards, PR review skill, and MCP tools (read-only, progressive disclosure)",
+      "version": "0.1.0",
+      "license": "MIT",
+      "keywords": ["angular", "architecture", "mcp", "code-review", "accessibility"]
+    }
+  ]
+}

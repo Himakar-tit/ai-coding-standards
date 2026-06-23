@@ -1,0 +1,54 @@
+{
+  "name": "angular-standards-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for Angular architecture standards — progressive disclosure for AI coding assistants.",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "angular-standards-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "standards"
+  ],
+  "scripts": {
+    "build": "tsc && node scripts/copy-standards.mjs",
+    "start": "node dist/index.js",
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "typescript": "^5.8.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Himakar-tit/ai-coding-standards.git",
+    "directory": "angular-standards/mcp-server"
+  },
+  "bugs": {
+    "url": "https://github.com/Himakar-tit/ai-coding-standards/issues"
+  },
+  "homepage": "https://github.com/Himakar-tit/ai-coding-standards#readme",
+  "keywords": [
+    "mcp",
+    "angular",
+    "cursor",
+    "copilot",
+    "claude",
+    "architecture",
+    "code-review",
+    "model-context-protocol"
+  ]
+}

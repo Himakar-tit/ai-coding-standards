@@ -1,0 +1,16 @@
+---
+description: Modern Angular component standards — signals, OnPush, control flow
+globs: "**/*.{ts,html}"
+alwaysApply: false
+---
+
+# Angular Components
+
+- Standalone components with `ChangeDetectionStrategy.OnPush`
+- Use `input()`, `output()`, `signal()`, `computed()` — not legacy decorators
+- Control flow: `@if`, `@for` (with stable `track`), `@switch` — never `*ngIf`/`*ngFor`
+- Smart/container vs presentational/dumb separation
+- No template function calls; no getters recalculated every CD cycle
+- No manual subscribe for template data — use async pipe or signals
+
+When generating or editing components, call MCP tool `get_standards_section` with `modern-angular` or `architecture` if unsure.
