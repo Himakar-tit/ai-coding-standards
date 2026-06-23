@@ -1,15 +1,22 @@
 # Install into your Angular app
 
-Run once per Angular workspace. Works for **Cursor**, **GitHub Copilot**, **Claude Code**, and **Claude Desktop**.
-
-## After npm publish (recommended)
+## After npm publish (use in any repo)
 
 ```bash
-cd /path/to/your-angular-app
+cd your-angular-app
 npx angular-standards-setup
 ```
 
-## From this git repo (before npm publish)
+Or pin as devDependency:
+
+```bash
+npm install --save-dev angular-standards-mcp
+npx angular-standards-setup
+```
+
+Package: https://www.npmjs.com/package/angular-standards-mcp
+
+## From this git repo (before publish / local dev)
 
 ```bash
 cd angular-standards/mcp-server
@@ -18,29 +25,25 @@ npm install && npm run build
 node scripts/setup.mjs --target /path/to/your-angular-app --local
 ```
 
+Publish instructions: [mcp-server/NPM_PUBLISH.md](../mcp-server/NPM_PUBLISH.md)
+
 ## Host-specific
 
 ```bash
-# GitHub Copilot (VS Code) + instructions
-npx angular-standards-setup --host copilot
-
-# Claude Code + CLAUDE.md
-npx angular-standards-setup --host claude-code
-
-# Claude Desktop (user profile config)
+npx angular-standards-setup --host copilot      # GitHub Copilot
+npx angular-standards-setup --host claude-code  # Claude Code
 npx angular-standards-setup --host claude-desktop
-
-# Cursor only
 npx angular-standards-setup --host cursor
+npx angular-standards-setup --host all
 ```
 
 ## What gets installed
 
 | Host | Files |
 |------|-------|
-| GitHub Copilot | `.vscode/mcp.json`, `.github/copilot-instructions.md`, `.github/instructions/*.instructions.md`, `AGENTS.md` |
+| GitHub Copilot | `.vscode/mcp.json`, `.github/copilot-instructions.md`, `.github/instructions/`, `AGENTS.md` |
 | Claude Code | `.mcp.json`, `CLAUDE.md`, `AGENTS.md` |
-| Claude Desktop | `%APPDATA%\Claude\claude_desktop_config.json` (Windows) |
+| Claude Desktop | User `claude_desktop_config.json` |
 | Cursor | `.cursor/mcp.json` |
 
-MCP runtime: `npx -y angular-standards-mcp` (same on all hosts).
+MCP runtime: `npx -y angular-standards-mcp`

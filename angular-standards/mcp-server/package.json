@@ -4,16 +4,19 @@
   "description": "MCP server for Angular architecture standards — Cursor, GitHub Copilot, Claude Desktop, and Claude Code.",
   "type": "module",
   "license": "MIT",
+  "author": "Himakar Reddy <himakar.reddy@triconinfotech.com>",
   "bin": {
-    "angular-standards-mcp": "./dist/index.js",
-    "angular-standards-setup": "./scripts/setup.mjs"
+    "angular-standards-mcp": "bin/angular-standards-mcp.js",
+    "angular-standards-setup": "bin/angular-standards-setup.js"
   },
   "files": [
+    "bin",
     "dist",
     "standards",
     "templates",
     "scripts/setup.mjs",
-    "scripts/copy-standards.mjs"
+    "scripts/copy-standards.mjs",
+    "README.md"
   ],
   "scripts": {
     "build": "tsc && node scripts/copy-standards.mjs",
